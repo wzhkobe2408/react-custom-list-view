@@ -1,8 +1,13 @@
 /* add css styles here (optional) */
 
-.test {
-  display: inline-block;
-  margin: 2em auto;
-  border: 2px solid #000;
-  font-size: 2em;
+.listview {
+  display: block;
+  width: 100%;
+  overflow-y: scroll;
+  box-sizing: border-box;
+}
+
+.loadingHint {
+  text-align: center;
+  margin: 10px 0;
 }
