@@ -7,7 +7,7 @@
 ## Install
 
 ```bash
-npm install --save react-list-view
+npm install --save react-custom-list-view
 ```
 
 ## Usage
@@ -15,9 +15,9 @@ npm install --save react-list-view
 ```tsx
 import * as React from 'react';
 
-import MyComponent from 'react-list-view';
+import ReactListView from 'react-list-view';
 
-class ReactListView extends React.Component {
+class App extends React.Component {
   render() {
     return (
       <ReactListView
