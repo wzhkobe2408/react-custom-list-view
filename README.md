@@ -13,15 +13,20 @@ npm install --save react-list-view
 ## Usage
 
 ```tsx
-import * as React from 'react'
+import * as React from 'react';
 
-import MyComponent from 'react-list-view'
+import MyComponent from 'react-list-view';
 
-class Example extends React.Component {
-  render () {
+class ReactListView extends React.Component {
+  render() {
     return (
-      <MyComponent />
-    )
+      <ReactListView
+        loadMore={this.loadMore}
+        containerHeight={this.containerHeight}
+        threshhold={this.threshhold}
+        renderList={this.renderList}
+      />
+    );
   }
 }
 ```
