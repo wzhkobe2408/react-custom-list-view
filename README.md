@@ -1,4 +1,4 @@
-# react-list-view
+# react-custom-list-view
 
 > A listview component for ReactJS
 
