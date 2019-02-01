@@ -10,15 +10,23 @@ export type Props = {
   /**
    * 滚动到底部距离限制 -> 触发加载
    */
-  threshhold: number;
+  threshhold?: number;
   /**
    * 容器高度
    */
-  containerHeight: number;
+  containerHeight?: number;
   /**
-   * 渲染列表
+   * 是否还有更多数据
    */
-  renderList: Function;
+  hasMore: boolean;
+  /**
+   * 列表数据
+   */
+  list: Array<any>;
+  /**
+   * 渲染Item
+   */
+  renderItem: (item: any, index: number) => any;
   /**
    * 加载更多数据
    */
@@ -27,17 +35,9 @@ export type Props = {
 
 export type State = {
   /**
-   * 列表数据
-   */
-  list: any[];
-  /**
    * 滚动距容器底部的距离
    */
   scrollBottomDistance: number;
-  /**
-   * 是否还有更多数据
-   */
-  hasMore: boolean;
   /**
    * 是否处于加载状态
    */
@@ -46,9 +46,7 @@ export type State = {
 
 export default class ListView extends React.Component<Props, State> {
   state: State = {
-    list: [],
     scrollBottomDistance: Number.POSITIVE_INFINITY,
-    hasMore: false,
     loading: false,
   };
 
@@ -63,7 +61,6 @@ export default class ListView extends React.Component<Props, State> {
   startLoading = () => {
     this.setState(() => {
       return {
-        hasMore: true,
         loading: true,
       };
     });
@@ -72,57 +69,79 @@ export default class ListView extends React.Component<Props, State> {
   finishLoading = () => {
     this.setState(() => {
       return {
-        hasMore: true,
         loading: false,
       };
     });
   };
 
   async componentDidMount() {
-    const { loadMore } = this.props;
+    const { loadMore, containerHeight } = this.props;
     this.startLoading();
-    const list = await loadMore();
-    this.setState((prevState, _) => {
-      return {
-        list: prevState.list.concat(list),
-      };
-    });
+    try {
+      await loadMore();
+    } catch (err) {
+      console.error(err);
+    }
+    if (containerHeight && containerHeight < this.containerRef.clientHeight) {
+      this.containerRef.style.height = `${containerHeight}px`;
+      return;
+    }
     this.containerRef.style.height =
       (this.containerRef.clientHeight - 50).toString() + 'px';
     this.finishLoading();
   }
+
+  /**
+   * 节流函数
+   */
+  throttle = (method: Function, time: number, context: any) => {
+    var startTime: Date = new Date();
+    return function() {
+      const endTime: Date = new Date();
+      const resTime: number =
+        endTime.getMilliseconds() - startTime.getMilliseconds();
+      if (resTime >= time) {
+        method.call(context);
+        startTime = endTime;
+      }
+    };
+  };
   /**
    * 容器滚动监听函数
    */
   onHandleScroll = async (e: React.UIEvent<HTMLDivElement>) => {
-    e.persist();
-    const {
-      currentTarget: { clientHeight, scrollHeight, scrollTop },
-    } = e;
-    if (scrollTop + clientHeight === scrollHeight) {
-      this.startLoading();
-      const list = await this.props.loadMore();
-      this.setState((prevState, _) => {
-        return {
-          list: prevState.list.concat(list),
-        };
-      });
-      this.finishLoading();
-    }
+    this.throttle(
+      async () => {
+        // 如果正在加载,则直接返回
+        if (this.state.loading || !this.props.hasMore) return;
+        e.persist();
+        const {
+          currentTarget: { clientHeight, scrollHeight, scrollTop },
+        } = e;
+        const { threshhold, loadMore } = this.props;
+        if (scrollTop + clientHeight >= scrollHeight + (threshhold || 0)) {
+          this.startLoading();
+          await loadMore();
+          this.finishLoading();
+        }
+      },
+      100,
+      this,
+    )();
   };
 
   /**
    * 渲染加载提示
    */
   renderLoadingHint = () => {
-    const { threshhold } = this.props;
-    const { hasMore, loading, scrollBottomDistance } = this.state;
+    const { threshhold, hasMore } = this.props;
+    const { loading, scrollBottomDistance } = this.state;
     return (
       <div className={styles.loadingHint}>
-        {hasMore && loading && scrollBottomDistance >= threshhold ? (
+        {hasMore && loading && scrollBottomDistance >= (threshhold || 0) ? (
           <div>正在为您努力加载...</div>
         ) : null}
-        {!hasMore && loading && scrollBottomDistance >= threshhold ? (
+        {!hasMore && scrollBottomDistance >= (threshhold || 0) ? (
           <div>暂无更多数据</div>
         ) : null}
       </div>
@@ -130,15 +149,14 @@ export default class ListView extends React.Component<Props, State> {
   };
 
   render() {
-    const { renderList } = this.props;
-    const { list } = this.state;
+    const { renderItem, list } = this.props;
     return (
       <div
         ref={this.bindRef}
         className={styles.listview}
         onScroll={this.onHandleScroll}
       >
-        {renderList(list)}
+        {list && list.length > 0 ? <div>{list.map(renderItem)}</div> : null}
         {this.renderLoadingHint()}
       </div>
     );

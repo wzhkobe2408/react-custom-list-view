@@ -4,10 +4,19 @@
   display: block;
   width: 100%;
   overflow-y: scroll;
+  border: 1px solid transparent;
   box-sizing: border-box;
 }
 
 .loadingHint {
+  height: 60px;
+}
+
+.loadingHint > div {
   text-align: center;
-  margin: 10px 0;
+  height: 100%;
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
 }
