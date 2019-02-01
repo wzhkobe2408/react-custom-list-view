@@ -2,46 +2,127 @@ import React, { Component } from 'react';
 
 import ReactListView from 'react-list-view';
 
+const totalLength = 100;
+let count = 0;
+
 export default class App extends Component {
-  containerHeight = 600;
-  threshhold = 100;
-  loadMore = async () => {
-    const data = [
-      { text: 'Mike is Programming' },
-      { text: 'Jack is Play Basketball' },
-      { text: 'John is Singing' },
-      { text: 'Rose is Dancing' },
-      { text: 'Sarah is Writing' },
-      { text: 'Mike is Programming' },
-      { text: 'Jack is Play Basketball' },
-      { text: 'John is Singing' },
-      { text: 'Rose is Dancing' },
-      { text: 'Sarah is Writing' },
-    ];
-    return new Promise((resolve, reject) => {
-      setTimeout(() => resolve(data), 1000);
+  state = {
+    hasMore: true,
+    list: [],
+  };
+
+  /**
+   * 等待
+   * @params time: number(毫秒)
+   */
+  sleep = time => {
+    return new Promise((resolve, _) => {
+      setTimeout(resolve, time);
     });
   };
-  renderList = list => {
-    if (list.length <= 0) return null;
+
+  loadMore = async () => {
+    if (!this.state.hasMore) return;
+    let list;
+    if (count >= totalLength) {
+      await this.sleep(1000);
+      this.setState({
+        hasMore: false,
+      });
+    } else {
+      await this.sleep(1000);
+      list = [
+        {
+          text: 'Mike is Programming',
+          img: `https://source.unsplash.com/collection/${Math.floor(
+            Math.random() * 100,
+          )}/100x100`,
+        },
+        {
+          text: 'Jack is Play Basketball',
+          img: `https://source.unsplash.com/collection/${Math.floor(
+            Math.random() * 100,
+          )}/100x100`,
+        },
+        {
+          text: 'John is Singing',
+          img: `https://source.unsplash.com/collection/${Math.floor(
+            Math.random() * 100,
+          )}/100x100`,
+        },
+        {
+          text: 'Rose is Dancing',
+          img: `https://source.unsplash.com/collection/${Math.floor(
+            Math.random() * 100,
+          )}/100x100`,
+        },
+        {
+          text: 'Sarah is Writing',
+          img: `https://source.unsplash.com/collection/${Math.floor(
+            Math.random() * 100,
+          )}/100x100`,
+        },
+        {
+          text: 'Mike is Programming',
+          img: `https://source.unsplash.com/collection/${Math.floor(
+            Math.random() * 100,
+          )}/100x100`,
+        },
+        {
+          text: 'Jack is Play Basketball',
+          img: `https://source.unsplash.com/collection/${Math.floor(
+            Math.random() * 100,
+          )}/100x100`,
+        },
+        {
+          text: 'John is Singing',
+          img: `https://source.unsplash.com/collection/${Math.floor(
+            Math.random() * 100,
+          )}/100x100`,
+        },
+        {
+          text: 'Rose is Dancing',
+          img: `https://source.unsplash.com/collection/${Math.floor(
+            Math.random() * 100,
+          )}/100x100`,
+        },
+        {
+          text: 'Sarah is Writing',
+          img: `https://source.unsplash.com/collection/${Math.floor(
+            Math.random() * 100,
+          )}/100x100`,
+        },
+      ];
+      count += list.length;
+      this.setState((prevState, _) => {
+        return {
+          list: prevState.list.concat(list),
+          hasMore: true,
+        };
+      });
+    }
+  };
+
+  renderItem = (item, index) => {
     return (
-      <div>
-        {list.map((item, index) => (
-          <div className={'list-item'} key={index}>
-            {item.text}
-          </div>
-        ))}
+      <div className={'list-item'} key={index}>
+        <div className="avatar-container">
+          <img src={item.img} className="avatar" alt="" />
+        </div>
+        <div className="title">{item.text}</div>
       </div>
     );
   };
+
   render() {
+    const { hasMore, list } = this.state;
     return (
       <div>
         <ReactListView
           loadMore={this.loadMore}
-          containerHeight={this.containerHeight}
-          threshhold={this.threshhold}
-          renderList={this.renderList}
+          renderItem={this.renderItem}
+          hasMore={hasMore}
+          list={list}
         />
       </div>
     );

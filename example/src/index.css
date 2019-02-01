@@ -5,9 +5,30 @@ body {
 }
 
 .list-item {
-  padding: 8px 10px 8px;
+  padding: 20px 10px 20px;
+  display: flex;
+  align-items: center;
 }
 
 .list-item:nth-child(2n) {
   background-color: #f4f4f4;
+}
+
+.title {
+  font-size: 18px;
+}
+
+.avatar-container {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 20px;
+  background-color: #cccccc;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
 }
