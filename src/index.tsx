@@ -110,40 +110,30 @@ export default class ListView extends React.Component<Props, State> {
    * 容器滚动监听函数
    */
   onHandleScroll = async (e: React.UIEvent<HTMLDivElement>) => {
-    this.throttle(
-      async () => {
-        // 如果正在加载,则直接返回
-        if (this.state.loading || !this.props.hasMore) return;
-        e.persist();
-        const {
-          currentTarget: { clientHeight, scrollHeight, scrollTop },
-        } = e;
-        const { threshhold, loadMore } = this.props;
-        if (scrollTop + clientHeight >= scrollHeight + (threshhold || 0)) {
-          this.startLoading();
-          await loadMore();
-          this.finishLoading();
-        }
-      },
-      100,
-      this,
-    )();
+    // 如果正在加载,则直接返回
+    if (this.state.loading || !this.props.hasMore) return;
+    e.persist();
+    const {
+      currentTarget: { clientHeight, scrollHeight, scrollTop },
+    } = e;
+    const { threshhold, loadMore } = this.props;
+    if (scrollTop + clientHeight >= scrollHeight + (threshhold || 0)) {
+      this.startLoading();
+      await loadMore();
+      this.finishLoading();
+    }
   };
 
   /**
    * 渲染加载提示
    */
   renderLoadingHint = () => {
-    const { threshhold, hasMore } = this.props;
-    const { loading, scrollBottomDistance } = this.state;
+    const { hasMore } = this.props;
+    const { loading } = this.state;
     return (
       <div className={styles.loadingHint}>
-        {hasMore && loading && scrollBottomDistance >= (threshhold || 0) ? (
-          <div>正在为您努力加载...</div>
-        ) : null}
-        {!hasMore && scrollBottomDistance >= (threshhold || 0) ? (
-          <div>暂无更多数据</div>
-        ) : null}
+        {hasMore && loading ? <div>正在为您努力加载...</div> : null}
+        {!hasMore ? <div>暂无更多数据</div> : null}
       </div>
     );
   };
