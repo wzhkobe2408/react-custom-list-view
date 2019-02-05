@@ -149,6 +149,16 @@ export default class App extends Component {
 }
 ```
 
+## Example
+
+### Loading
+
+<img src="loading.png" alt="loading" width="300"/>
+
+### Nomore Data
+
+<img src="nomore-data.png" alt="nomore-data" width="300"/>
+
 ## License
 
 MIT © [wzhkobe2408](https://github.com/wzhkobe2408)
