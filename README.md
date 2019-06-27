@@ -142,6 +142,8 @@ export default class App extends Component {
           renderItem={this.renderItem}
           hasMore={hasMore}
           list={list}
+          // noDataHint={/* JSX.Element */}
+          // loadingHint={/* JSX.Element */}
         />
       </div>
     );
