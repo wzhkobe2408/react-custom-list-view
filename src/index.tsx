@@ -31,6 +31,14 @@ export type Props = {
    * 加载更多数据
    */
   loadMore: Function;
+  /**
+   * 加载数据的提示
+   */
+  loadingHint?: JSX.Element;
+  /**
+   * 无更多数据的提示
+   */
+  noDataHint?: JSX.Element;
 };
 
 export type State = {
@@ -128,12 +136,28 @@ export default class ListView extends React.Component<Props, State> {
    * 渲染加载提示
    */
   renderLoadingHint = () => {
-    const { hasMore } = this.props;
+    const { hasMore, loadingHint, noDataHint } = this.props;
     const { loading } = this.state;
     return (
       <div className={styles.loadingHint}>
-        {hasMore && loading ? <div>正在为您努力加载...</div> : null}
-        {!hasMore ? <div>暂无更多数据</div> : null}
+        {
+          (hasMore && loading) ?
+            (
+              !!loadingHint ?
+                loadingHint :
+                <div>正在为您努力加载...</div>
+            ) :
+            null
+        }
+        {
+          !hasMore ?
+            (
+              !!noDataHint ?
+                noDataHint :
+                <div>暂无更多数据</div>
+            ) :
+            null
+        }
       </div>
     );
   };
