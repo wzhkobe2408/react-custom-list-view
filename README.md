@@ -138,12 +138,13 @@ export default class App extends Component {
     return (
       <div>
         <ReactListView
+          // containerHeight={400}
           loadMore={this.loadMore}
           renderItem={this.renderItem}
           hasMore={hasMore}
           list={list}
-          // noDataHint={/* JSX.Element */}
-          // loadingHint={/* JSX.Element */}
+          // loadingHint={/* JSX Element */}
+          // noDataHint={/* JSX Element */}
         />
       </div>
     );

@@ -92,7 +92,6 @@ export default class ListView extends React.Component<Props, State> {
     }
     if (containerHeight && containerHeight < this.containerRef.clientHeight) {
       this.containerRef.style.height = `${containerHeight}px`;
-      return;
     }
     this.containerRef.style.height =
       (this.containerRef.clientHeight - 50).toString() + 'px';
@@ -140,24 +139,14 @@ export default class ListView extends React.Component<Props, State> {
     const { loading } = this.state;
     return (
       <div className={styles.loadingHint}>
-        {
-          (hasMore && loading) ?
-            (
-              !!loadingHint ?
-                loadingHint :
-                <div>正在为您努力加载...</div>
-            ) :
-            null
-        }
-        {
-          !hasMore ?
-            (
-              !!noDataHint ?
-                noDataHint :
-                <div>暂无更多数据</div>
-            ) :
-            null
-        }
+        {hasMore && loading ? (
+          !!loadingHint ? (
+            loadingHint
+          ) : (
+            <div>正在为您努力加载...</div>
+          )
+        ) : null}
+        {!hasMore ? !!noDataHint ? noDataHint : <div>暂无更多数据</div> : null}
       </div>
     );
   };
