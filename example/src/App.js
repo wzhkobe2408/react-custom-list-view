@@ -25,12 +25,12 @@ export default class App extends Component {
     if (!this.state.hasMore) return;
     let list;
     if (count >= totalLength) {
-      await this.sleep(1000);
+      await this.sleep(500);
       this.setState({
         hasMore: false,
       });
     } else {
-      await this.sleep(1000);
+      await this.sleep(500);
       list = [
         {
           text: 'Mike is Programming',
@@ -119,7 +119,7 @@ export default class App extends Component {
     return (
       <div>
         <ReactListView
-          containerHeight={400}
+          // containerHeight={400}
           loadMore={this.loadMore}
           renderItem={this.renderItem}
           hasMore={hasMore}

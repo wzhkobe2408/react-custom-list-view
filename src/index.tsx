@@ -43,10 +43,6 @@ export type Props = {
 
 export type State = {
   /**
-   * 滚动距容器底部的距离
-   */
-  scrollBottomDistance: number;
-  /**
    * 是否处于加载状态
    */
   loading: boolean;
@@ -54,33 +50,18 @@ export type State = {
 
 export default class ListView extends React.Component<Props, State> {
   state: State = {
-    scrollBottomDistance: Number.POSITIVE_INFINITY,
     loading: false,
   };
 
   containerRef: HTMLDivElement;
 
-  bindRef = (ref: HTMLDivElement) => {
-    if (ref) {
-      this.containerRef = ref;
-    }
+  bindRef = (ref: HTMLDivElement | null) => {
+    ref && (this.containerRef = ref);
   };
 
-  startLoading = () => {
-    this.setState(() => {
-      return {
-        loading: true,
-      };
-    });
-  };
+  startLoading = () => this.setState({ loading: true });
 
-  finishLoading = () => {
-    this.setState(() => {
-      return {
-        loading: false,
-      };
-    });
-  };
+  finishLoading = () => this.setState({ loading: false });
 
   async componentDidMount() {
     const { loadMore, containerHeight } = this.props;
@@ -92,27 +73,13 @@ export default class ListView extends React.Component<Props, State> {
     }
     if (containerHeight && containerHeight < this.containerRef.clientHeight) {
       this.containerRef.style.height = `${containerHeight}px`;
+    } else {
+      this.containerRef.style.height =
+        (this.containerRef.clientHeight - 1).toString() + 'px';
     }
-    this.containerRef.style.height =
-      (this.containerRef.clientHeight - 50).toString() + 'px';
     this.finishLoading();
   }
 
-  /**
-   * 节流函数
-   */
-  throttle = (method: Function, time: number, context: any) => {
-    var startTime: Date = new Date();
-    return function() {
-      const endTime: Date = new Date();
-      const resTime: number =
-        endTime.getMilliseconds() - startTime.getMilliseconds();
-      if (resTime >= time) {
-        method.call(context);
-        startTime = endTime;
-      }
-    };
-  };
   /**
    * 容器滚动监听函数
    */
@@ -124,7 +91,7 @@ export default class ListView extends React.Component<Props, State> {
       currentTarget: { clientHeight, scrollHeight, scrollTop },
     } = e;
     const { threshhold, loadMore } = this.props;
-    if (scrollTop + clientHeight >= scrollHeight + (threshhold || 0)) {
+    if (scrollTop + clientHeight >= scrollHeight - (threshhold || 100)) {
       this.startLoading();
       await loadMore();
       this.finishLoading();
@@ -159,7 +126,7 @@ export default class ListView extends React.Component<Props, State> {
         className={styles.listview}
         onScroll={this.onHandleScroll}
       >
-        {list && list.length > 0 ? <div>{list.map(renderItem)}</div> : null}
+        {list && list.length > 0 ? <>{list.map(renderItem)}</> : null}
         {this.renderLoadingHint()}
       </div>
     );
