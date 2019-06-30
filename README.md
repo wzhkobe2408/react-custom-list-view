@@ -2,7 +2,7 @@
 
 > A listview component for ReactJS
 
-[![NPM](https://img.shields.io/npm/v/react-list-view.svg)](https://www.npmjs.com/package/react-list-view) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/react-list-view.svg)](https://www.npmjs.com/package/react-list-view) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) [![Downloads/week](https://img.shields.io/npm/dw/react-custom-list-view.svg)](https://npmjs.org/package/react-custom-list-view) [![License](https://img.shields.io/npm/l/react-custom-list-view.svg)]
 
 ## Install
 
