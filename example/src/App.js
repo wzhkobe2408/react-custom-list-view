@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-
-import ReactListView from 'react-list-view';
+import ReactListView from 'react-custom-list-view';
+import list from './mock/list';
+import { sleep } from './utils';
 
 const totalLength = 100;
 let count = 0;
@@ -11,88 +12,16 @@ export default class App extends Component {
     list: [],
   };
 
-  /**
-   * 等待
-   * @params time: number(毫秒)
-   */
-  sleep = time => {
-    return new Promise((resolve, _) => {
-      setTimeout(resolve, time);
-    });
-  };
-
   loadMore = async () => {
     if (!this.state.hasMore) return;
-    let list;
+
     if (count >= totalLength) {
-      await this.sleep(500);
+      await sleep(500);
       this.setState({
         hasMore: false,
       });
     } else {
-      await this.sleep(500);
-      list = [
-        {
-          text: 'Mike is Programming',
-          img: `https://source.unsplash.com/collection/${Math.floor(
-            Math.random() * 100,
-          )}/100x100`,
-        },
-        {
-          text: 'Jack is Play Basketball',
-          img: `https://source.unsplash.com/collection/${Math.floor(
-            Math.random() * 100,
-          )}/100x100`,
-        },
-        {
-          text: 'John is Singing',
-          img: `https://source.unsplash.com/collection/${Math.floor(
-            Math.random() * 100,
-          )}/100x100`,
-        },
-        {
-          text: 'Rose is Dancing',
-          img: `https://source.unsplash.com/collection/${Math.floor(
-            Math.random() * 100,
-          )}/100x100`,
-        },
-        {
-          text: 'Sarah is Writing',
-          img: `https://source.unsplash.com/collection/${Math.floor(
-            Math.random() * 100,
-          )}/100x100`,
-        },
-        {
-          text: 'Mike is Programming',
-          img: `https://source.unsplash.com/collection/${Math.floor(
-            Math.random() * 100,
-          )}/100x100`,
-        },
-        {
-          text: 'Jack is Play Basketball',
-          img: `https://source.unsplash.com/collection/${Math.floor(
-            Math.random() * 100,
-          )}/100x100`,
-        },
-        {
-          text: 'John is Singing',
-          img: `https://source.unsplash.com/collection/${Math.floor(
-            Math.random() * 100,
-          )}/100x100`,
-        },
-        {
-          text: 'Rose is Dancing',
-          img: `https://source.unsplash.com/collection/${Math.floor(
-            Math.random() * 100,
-          )}/100x100`,
-        },
-        {
-          text: 'Sarah is Writing',
-          img: `https://source.unsplash.com/collection/${Math.floor(
-            Math.random() * 100,
-          )}/100x100`,
-        },
-      ];
+      await sleep(500);
       count += list.length;
       this.setState((prevState, _) => {
         return {
