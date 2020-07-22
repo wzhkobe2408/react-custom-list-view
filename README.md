@@ -25,6 +25,7 @@ const sleep = (time = 500) => {
   });
 };
 
+// mock list data
 const list = [
   {
     text: 'Mike is Programming',
@@ -94,10 +95,7 @@ export default class App extends Component {
     list: [],
   };
 
-  /*
-   * 实际开发过程中调用api获取数据
-   * 此处为模拟
-   */
+  // mock http request
   loadMore = async () => {
     if (!this.state.hasMore) return;
     if (count >= totalLength) {
