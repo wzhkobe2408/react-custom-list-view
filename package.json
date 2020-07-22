@@ -4,7 +4,7 @@
   "description": "A listview component for ReactJS",
   "author": "wzhkobe2408",
   "license": "MIT",
-  "repository": "wzhkobe2408/react-list-view",
+  "repository": "wzhkobe2408/react-custom-list-view",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "jsnext:main": "dist/index.es.js",
