@@ -6313,10 +6313,10 @@ rc@^1.0.1, rc@^1.1.6:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-custom-list-view@1.0.8:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/react-custom-list-view/-/react-custom-list-view-1.0.8.tgz#ce0b01d09070fd6488bb43cdc69aadc542fd0bc7"
-  integrity sha512-e/5mvBXkRcW8txFhnyYcnSfyLv9cMVryr3EYpiF+7SVbWNbpGgmEC42vhJ6vG4MqxUxYqR/g3AsBX9ohmco/0w==
+react-custom-list-view@1.0.10:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/react-custom-list-view/-/react-custom-list-view-1.0.10.tgz#10618aae3e9bf4d36ba9a425a3f22255d52155bf"
+  integrity sha512-YE6Sl2CMgD+Mc92AHdtNebQVS0UuiE6/yhe/xXhUb49wY/TvfBpQNaEHjozBAmjdYnL3ARoC2zqRD9jvI+IjtQ==
 
 react-dev-utils@^5.0.2:
   version "5.0.3"
