@@ -8,7 +8,7 @@
     "prop-types": "^15.6.2",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "react-scripts": "^1.1.4",
+    "react-scripts": "^2.0.0",
     "react-custom-list-view": "1.0.10"
   },
   "scripts": {
